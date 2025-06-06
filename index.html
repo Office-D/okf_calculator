@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OKFシリーズ肥料計算アプリ</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌱 OKFシリーズ肥料計算アプリ</h1>
+            <p>施設栽培用液体肥料の成分計算と施用量算出ツール</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('basic-info')">📊 基本情報</button>
+            <button class="tab" onclick="showTab('calculator')">🧮 使用量計算</button>
+            <button class="tab" onclick="showTab('quick-table')">📋 早見表</button>
+        </div>
+
+        <!-- 基本情報タブ -->
+        <div id="basic-info" class="tab-content active">
+            <div class="calc-title">OKFシリーズ製品一覧</div>
+            <div class="alert">
+                各製品の保証成分と配合成分、EC値を確認できます。
+            </div>
+            <div id="product-cards" class="info-grid"></div>
+            
+            <div class="calc-title" style="margin-top: 30px;">EC値一覧表</div>
+            <table class="quick-table">
+                <thead>
+                    <tr>
+                        <th>製品名</th>
+                        <th>100倍</th>
+                        <th>200倍</th>
+                        <th>500倍</th>
+                        <th>750倍</th>
+                        <th>1000倍</th>
+                        <th>2000倍</th>
+                        <th>4000倍</th>
+                    </tr>
+                </thead>
+                <tbody id="ec-table-body"></tbody>
+            </table>
+        </div>
+
+        <!-- 計算タブ -->
+        <div id="calculator" class="tab-content">
+            <div class="calc-section">
+                <div class="calc-title">使用量計算</div>
+                <div class="alert">
+                    タンク倍率、混入機倍率、流量を入力して、製品使用量と各成分の施用量を計算します。
+                </div>
+                
+                <div class="input-group">
+                    <div class="input-field">
+                        <label for="product-select">製品選択</label>
+                        <select id="product-select">
+                            <option value="">製品を選択してください</option>
+                        </select>
+                    </div>
+                    <div class="input-field">
+                        <label for="tank-ratio">タンク倍率</label>
+                        <input type="number" id="tank-ratio" value="10" min="1" max="100">
+                        <small>倍</small>
+                    </div>
+                    <div class="input-field">
+                        <label for="injection-ratio">混入機倍率</label>
+                        <input type="number" id="injection-ratio" value="250" min="1" max="1000">
+                        <small>倍</small>
+                    </div>
+                    <div class="input-field">
+                        <label for="flow-rate">流量（10a）</label>
+                        <input type="number" id="flow-rate" value="5000" min="1000" max="10000">
+                        <small>L</small>
+                    </div>
+                </div>
+                
+                <button class="calculate-btn" onclick="calculateUsage()">💧 計算実行</button>
+            </div>
+
+            <div class="results" id="calculation-results" style="display: none;">
+                <div class="calc-title">計算結果</div>
+                <div id="results-content"></div>
+            </div>
+        </div>
+
+        <!-- 早見表タブ -->
+        <div id="quick-table" class="tab-content">
+            <div class="calc-section">
+                <div class="calc-title">早見表</div>
+                <div class="alert">
+                    選択した製品の希釈倍率別使用量を確認できます。
+                </div>
+                
+                <div class="product-selector">
+                    <div class="input-field">
+                        <label for="quick-product-select">製品選択</label>
+                        <select id="quick-product-select" onchange="updateQuickTable()">
+                            <option value="">製品を選択してください</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="quick-table-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
